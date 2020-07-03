@@ -1,4 +1,5 @@
 const path = require('path')
+const Dotenv = require('dotenv-webpack')
 
 module.exports = {
   webpack (config, options) {
@@ -41,6 +42,18 @@ module.exports = {
     //     fs: 'empty'
     //   }
     // }
+
+    // Next.jsでdotenvを使って秘匿情報を扱う - Qiita
+    // https://qiita.com/masarufuruya/items/63fd063375004b02f31c
+    config.plugins = config.plugins || []
+    config.plugins = [
+      ...config.plugins,
+      // Read the .env file
+      new Dotenv({
+        path: path.join(__dirname, '.env.local'),
+        systemvars: true
+      })
+    ]
     return config
   },
 }
