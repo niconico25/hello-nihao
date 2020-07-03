@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Craniocaudal from '@/components/craniocaudal.js'
 import WebCard from '@/components/webcard.js'
+import { processEnv } from 'next/dist/lib/load-env-config'
 
 export default ({ contents }) => (<>
   <Craniocaudal>
@@ -57,7 +58,7 @@ export const getStaticProps = async () => {
   const { data } = await axios.get(
     "https://hello-nihao.microcms.io/api/v1/blog?limit=100",
     {
-      headers: { "X-API-KEY": "dcda770e-85dc-43eb-9308-49961ea0e6ea" },
+      headers: { "X-API-KEY": process.end.X_API_KEY },
     }
   );
   const { contents } = data
