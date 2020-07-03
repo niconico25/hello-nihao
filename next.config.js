@@ -2,7 +2,7 @@ const path = require('path')
 const Dotenv = require('dotenv-webpack')
 
 module.exports = {
-  webpack (config, options) {
+  webpack (config) {
     // ailias
     config.resolve.alias['@'] = __dirname
 
