@@ -14,7 +14,7 @@ export default async (req, res) => {
   }
   const content = await fetch(
     `https://hello-nihao.microcms.io/api/v1/blog/${req.query.slug}?fields=id&draftKey=${req.query.draftKey}`,
-    { headers: { "X-API-KEY": "X-API-KEY" } }
+    { headers: { "X-API-KEY": process.env.X_API_KEY } }
   )
     .then((res) => res.json())
     .catch((error) => null);
