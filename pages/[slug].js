@@ -146,8 +146,8 @@ export const getStaticProps = async (context) => {
       headers: { "X-API-KEY": process.env.X_API_KEY },
     }
   );
-  const markdownIt = new MarkdownIt();
-  markdownIt.use(markdownItPrism, {html: true});
+  const markdownIt = new MarkdownIt({html: true});
+  markdownIt.use(markdownItPrism, {});
   const content = {
     ...data,
     innerHtml: markdownIt.render(data.body),
