@@ -147,7 +147,7 @@ export const getStaticProps = async (context) => {
     }
   );
   const markdownIt = new MarkdownIt();
-  markdownIt.use(markdownItPrism, {});
+  markdownIt.use(markdownItPrism, {html: true});
   const content = {
     ...data,
     innerHtml: markdownIt.render(data.body),
