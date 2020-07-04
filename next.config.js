@@ -2,7 +2,7 @@ const path = require('path')
 const Dotenv = require('dotenv-webpack')
 
 module.exports = {
-  webpack (config) {
+  webpack (config, options) {
     // ailias
     config.resolve.alias['@'] = __dirname
 
@@ -37,11 +37,11 @@ module.exports = {
     // Module not found: Can't resolve 'fs' #7755
     // https://github.com/vercel/next.js/issues/7755
     // Fixes npm packages that depend on `fs` module
-    // if (!options.isServer) {
-    //   config.node = {
-    //     fs: 'empty'
-    //   }
-    // }
+    if (!options.isServer) {
+      config.node = {
+        fs: 'empty'
+      }
+    }
 
     // Next.jsでdotenvを使って秘匿情報を扱う - Qiita
     // https://qiita.com/masarufuruya/items/63fd063375004b02f31c
