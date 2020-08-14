@@ -147,7 +147,12 @@ export const getStaticProps = async (context) => {
     }
   );
   const markdownIt = new MarkdownIt({ html: true });
-  if (process.env.RUNNING_ENVIRONMENT === 'preview-mode') {
+  // Vercel Preview Mode - Error: Cannot find module 'prismjs/components/' - Stackoverflow
+  // https://stackoverflow.com/questions/63187735/vercel-preview-mode-error-cannot-find-module-prismjs-components
+  if (process.env.RUNNING_ENVIRONMENT !== 'preview-mode') {
+    // import 文は使えないらしい, import 関数
+    // * Dynamic imports(ダイナミックインポート)
+    //   https://ja.javascript.info/modules-dynamic-imports
     const markdownItPrism = await import('markdown-it-prism').then(result => result.default)
     markdownIt.use(markdownItPrism, {});
   }
