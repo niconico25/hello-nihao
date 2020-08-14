@@ -1,6 +1,6 @@
 import axios from "axios";
 import MarkdownIt from "markdown-it";
-import markdownItPrism from "markdown-it-prism";
+// import markdownItPrism from "markdown-it-prism";
 import Head from "next/head";
 import Craniocaudal from "@/components/craniocaudal.js";
 
@@ -95,9 +95,9 @@ const Post = ({ content }) => (
       }
     `}</style>
     {/* 
-    css modules not working
-    <ComponentStyle></ComponentStyle>
-  */}
+  css modules not working
+  <ComponentStyle></ComponentStyle>
+*/}
   </>
 );
 
@@ -137,7 +137,7 @@ export async function getStaticPaths() {
 //
 export const getStaticProps = async (context) => {
   const slug = context.params?.slug;
-  const draftKey = context.previewData?.draftKey;  
+  const draftKey = context.previewData?.draftKey;
   const { data } = await axios.get(
     `https://hello-nihao.microcms.io/api/v1/blog/${slug}${
       draftKey !== undefined ? `?draftKey=${draftKey}` : ""
@@ -146,8 +146,11 @@ export const getStaticProps = async (context) => {
       headers: { "X-API-KEY": process.env.X_API_KEY },
     }
   );
-  const markdownIt = new MarkdownIt({html: true});
-  markdownIt.use(markdownItPrism, {});
+  const markdownIt = new MarkdownIt({ html: true });
+  if (process.env.RUNNING_ENVIRONMENT === 'preview-mode') {
+    const markdownItPrism = await import('markdown-it-prism').then(result => result.default)
+    markdownIt.use(markdownItPrism, {});
+  }
   const content = {
     ...data,
     innerHtml: markdownIt.render(data.body),
